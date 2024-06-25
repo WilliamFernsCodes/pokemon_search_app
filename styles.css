@@ -1,0 +1,8 @@
+:root {
+  --blue: #007bff;
+}
+
+html {
+  box-sizing: border-box;
+  align-items: center;
+}
