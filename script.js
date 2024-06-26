@@ -47,12 +47,26 @@ const appendAdditionalColumns = (parent) => {
   winnerColNameElem.textContent = `Stat Winner`
 }
 
-const displayPreviousPokemonStats = () => {
+const displayStatsWinner = () => {
+  const tbodyRows = [...document.querySelectorAll("tbody tr")];
+  // turn the tbodyRows to be an array of arrays, each array consisting of td elements. Each array represents one tr in the body.
+  const rowsArrayWithChildren = tbodyRows.map(row => [...row.children]);
+  rowsArrayWithChildren.forEach(row => {
+    console.log(`Rows TextContent Array: ${row.map(td => td.textContent)}`)
+    const currentStat = Number(row[1].textContent);
+    const previousStat = Number(row[2].textContent);
+    const setWinner = (text) => {
+      row[3].textContent = text;
+    }
+    setWinner(currentStat === previousStat ? "DRAW" : currentStat > previousStat ? currentPokemonName : previousPokemonName);
+  })
+}
+
+const displayPreviousPokemonStats = (formattedStatsKeysArr) => {
   const thead = document.querySelector("thead tr");
-  const formattedStatsKeysArr = formattedStatsKeys();
 
   const tbodyRows = Array.from(document.querySelectorAll("tbody tr"));
-  const hasPreviousStats = tbodyRows.every(row => Array.from(row.children).length === 3);
+  const hasPreviousStats = tbodyRows.every(row => Array.from(row.children).length >= 3);
   if (formattedStatsKeysArr.length) {
     if (hasPreviousStats) {
       tbodyRows.forEach((row, index) => {
@@ -63,8 +77,11 @@ const displayPreviousPokemonStats = () => {
       for (let i = 0; i < formattedStatsKeysArr.length; i++) {
         const key = formattedStatsKeysArr[i];
         const previousStatElem = document.createElement("td");
+        const winnerStatElem = document.createElement("td");
         previousStatElem.textContent = formattedStats[key];
         tbodyRows[i].appendChild(previousStatElem);
+        tbodyRows[i].appendChild(winnerStatElem);
+        tbodyRows[i].appendChild(winnerStatElem);
       }
     }
     appendAdditionalColumns(thead);
@@ -79,8 +96,8 @@ const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) 
   pokemonIdElem.textContent = `#${id}`;
   pokemonWeightElem.textContent = weight;
   pokemonHeightElem.textContent = height;
-
-  displayPreviousPokemonStats()
+  const formattedStatsKeysArr = formattedStatsKeys();
+  displayPreviousPokemonStats(formattedStatsKeysArr)
 
   for (const stat of stats) {
     const statKey = stat["stat"]["name"];
@@ -91,6 +108,9 @@ const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) 
     }
   }
 
+  if (formattedStatsKeysArr.length) {
+    displayStatsWinner();
+  }
   const img = document.querySelector("img");
   img.src = sprites["front_default"];
 
