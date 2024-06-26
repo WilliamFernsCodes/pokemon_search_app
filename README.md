@@ -1,6 +1,6 @@
 # Pokemon Search App
 
-[![Pokemon Search App](https://img.shields.io/badge/Pokemon_Search_App-purple)](link_here)
+[![Pokemon Search App](https://img.shields.io/badge/Pokemon_Search_App-purple)](https://pokemon-search-app-six.vercel.app)
 ![Project Type](https://img.shields.io/badge/Project_Type:-Ceritification_Project-orange)
 ![HTML,CSS](https://img.shields.io/badge/HTML-CSS-blue)
 ![JavaScript](https://img.shields.io/badge/JavaScript-purple)
@@ -9,7 +9,7 @@
 ![Pokemon Search App Edited Image](./assets/pokemon_search_app_edited.png)
 ![Pokemon Search App Website Screenshot](./assets/pokemon-search-app-website.png)
 
-A simple Pokemon Search App Project, made with HTML, CSS, and JavaScript. Feel free to check it out<a href="link_here" target="_blank">here</a>.
+A simple Pokemon Search App Project, made with HTML, CSS, and JavaScript. Feel free to check it out <a href="https://pokemon-search-app-six.vercel.app" target="_blank">here</a>.
 
 ## Technologies:
 1. HTML
