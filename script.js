@@ -9,6 +9,8 @@ const pokemonWeightElem = document.getElementById("weight");
 const pokemonHeightElem = document.getElementById("height");
 const pokemonTypesElem = document.getElementById("types");
 
+const formattedStats = {};
+
 const fetchPokemon = async (formattedInput) => {
   const url = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon"
   try {
@@ -22,29 +24,54 @@ const fetchPokemon = async (formattedInput) => {
   }
 }
 
+
 const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) => {
   pokemonNameElem.textContent = name.toUpperCase();
   pokemonIdElem.textContent = `#${id}`;
   pokemonWeightElem.textContent = weight;
   pokemonHeightElem.textContent = height;
+  const formattedStatsKeys = () => Object.keys(formattedStats);
 
-  const formattedStats = {};
+
+  const formattedStatsKeysArr = formattedStatsKeys();
+  if (formattedStatsKeysArr.length) {
+    const thead = document.querySelector("thead tr");
+    if (Array.from(thead.children).length === 2) {
+      const comparisonColNameElem = document.createElement("th");
+      comparisonColNameElem.textContent = "Previous Pokémon Stats"
+      thead.appendChild(comparisonColNameElem);
+    }
+
+    const tbodyRows = Array.from(document.querySelectorAll("tbody tr"));
+    const hasPreviousStats = tbodyRows.every(row => Array.from(row.children).length === 3);
+    if (hasPreviousStats) {
+      tbodyRows.forEach((row, index) => {
+        const rowChildren = [...row.children];
+        rowChildren[2].textContent = formattedStats[formattedStatsKeysArr[index]];
+      })
+    } else {
+      for (let i = 0; i < formattedStatsKeysArr.length; i++) {
+        const key = formattedStatsKeysArr[i];
+        const previousStatElem = document.createElement("td");
+        previousStatElem.textContent = formattedStats[key];
+        tbodyRows[i].appendChild(previousStatElem);
+      }
+    }
+  }
 
   for (const stat of stats) {
     const statKey = stat["stat"]["name"];
     formattedStats[statKey] = stat["base_stat"];
+    const tdElem = document.getElementById(statKey);
+    if (tdElem) {
+      tdElem.textContent = formattedStats[statKey];
+    }
   }
 
-  Object.keys(formattedStats).forEach(key => {
-    const tdElem = document.getElementById(key);
-    if (tdElem) {
-      tdElem.textContent = formattedStats[key];
-    }
-  })
   const img = document.querySelector("img");
   img.src = sprites["front_default"];
 
-  pokemonTypesElem.innerHTML = types.map(({type}) => {
+  pokemonTypesElem.innerHTML = types.map(({ type }) => {
     return `<p class="type ${type.name}">${type.name.toUpperCase()}</p>`
   }).join("");
 }
@@ -69,6 +96,10 @@ const formatInput = (input) => {
   const formattedString = match.join("").toLowerCase().replace(/\s/g, "-");
   console.log(`formatted string: ${formattedString}`)
   return formattedString;
+}
+
+const displayComparisonStats = () => {
+
 }
 
 
