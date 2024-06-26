@@ -10,6 +10,8 @@ const pokemonHeightElem = document.getElementById("height");
 const pokemonTypesElem = document.getElementById("types");
 
 const formattedStats = {};
+let currentPokemonName;
+let previousPokemonName;
 
 const fetchPokemon = async (formattedInput) => {
   const url = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon"
@@ -25,25 +27,33 @@ const fetchPokemon = async (formattedInput) => {
 }
 
 
-const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) => {
-  pokemonNameElem.textContent = name.toUpperCase();
-  pokemonIdElem.textContent = `#${id}`;
-  pokemonWeightElem.textContent = weight;
-  pokemonHeightElem.textContent = height;
-  const formattedStatsKeys = () => Object.keys(formattedStats);
+const formattedStatsKeys = () => Object.keys(formattedStats);
 
+const appendAdditionalColumns = (parent) => {
+  const parentChildren = [...parent.children];
+  let comparisonColNameElem;
+  let winnerColNameElem;
+  if (parentChildren.length === 2) {
+    comparisonColNameElem = document.createElement("th");
+    winnerColNameElem = document.createElement("th");
+    parent.appendChild(comparisonColNameElem);
+    parent.appendChild(winnerColNameElem);
+  } else {
+    comparisonColNameElem = parentChildren[2];
+    winnerColNameElem = parentChildren[3];
+  }
 
+  comparisonColNameElem.textContent = `${previousPokemonName}'s Stats`
+  winnerColNameElem.textContent = `Stat Winner`
+}
+
+const displayPreviousPokemonStats = () => {
+  const thead = document.querySelector("thead tr");
   const formattedStatsKeysArr = formattedStatsKeys();
-  if (formattedStatsKeysArr.length) {
-    const thead = document.querySelector("thead tr");
-    if (Array.from(thead.children).length === 2) {
-      const comparisonColNameElem = document.createElement("th");
-      comparisonColNameElem.textContent = "Previous Pokémon Stats"
-      thead.appendChild(comparisonColNameElem);
-    }
 
-    const tbodyRows = Array.from(document.querySelectorAll("tbody tr"));
-    const hasPreviousStats = tbodyRows.every(row => Array.from(row.children).length === 3);
+  const tbodyRows = Array.from(document.querySelectorAll("tbody tr"));
+  const hasPreviousStats = tbodyRows.every(row => Array.from(row.children).length === 3);
+  if (formattedStatsKeysArr.length) {
     if (hasPreviousStats) {
       tbodyRows.forEach((row, index) => {
         const rowChildren = [...row.children];
@@ -57,7 +67,20 @@ const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) 
         tbodyRows[i].appendChild(previousStatElem);
       }
     }
+    appendAdditionalColumns(thead);
   }
+}
+
+
+const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) => {
+  previousPokemonName = currentPokemonName;
+  currentPokemonName = name.toUpperCase();
+  pokemonNameElem.textContent = currentPokemonName;
+  pokemonIdElem.textContent = `#${id}`;
+  pokemonWeightElem.textContent = weight;
+  pokemonHeightElem.textContent = height;
+
+  displayPreviousPokemonStats()
 
   for (const stat of stats) {
     const statKey = stat["stat"]["name"];
