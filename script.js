@@ -1,18 +1,23 @@
+
+// get all the interactive elements
 const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const searchForm = document.getElementById("search-form");
 
+// select all the information element, where data will be updated.
 const pokemonNameElem = document.getElementById("pokemon-name");
 const pokemonIdElem = document.getElementById("pokemon-id");
 const pokemonWeightElem = document.getElementById("weight");
-
 const pokemonHeightElem = document.getElementById("height");
 const pokemonTypesElem = document.getElementById("types");
 
+
+// keep track of the previous stats, current pokemon name and previous pokemon name.
 const formattedStats = {};
 let currentPokemonName;
 let previousPokemonName;
 
+// function to fetch pokemon, using a specific input - can either be an id of a name.
 const fetchPokemon = async (formattedInput) => {
   const url = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon"
   try {
@@ -26,9 +31,10 @@ const fetchPokemon = async (formattedInput) => {
   }
 }
 
-
+// utiliity funciton to get the stats keys - found myself using this a few times.
 const formattedStatsKeys = () => Object.keys(formattedStats);
 
+// function to append additional columns to the table, when user searched more than once.
 const appendAdditionalColumns = (parent) => {
   const parentChildren = [...parent.children];
   let comparisonColNameElem;
@@ -47,6 +53,7 @@ const appendAdditionalColumns = (parent) => {
   winnerColNameElem.textContent = `Stat Winner`
 }
 
+// function to display the winner for each stat, by setting either a draw, or the name of the pokemon.
 const displayStatsWinner = () => {
   const tbodyRows = [...document.querySelectorAll("tbody tr")];
   // turn the tbodyRows to be an array of arrays, each array consisting of td elements. Each array represents one tr in the body.
@@ -62,6 +69,7 @@ const displayStatsWinner = () => {
   })
 }
 
+// funciton to display the previous pokemon stats, next to the current pokemon stats
 const displayPreviousPokemonStats = (formattedStatsKeysArr) => {
   const thead = document.querySelector("thead tr");
 
@@ -88,7 +96,7 @@ const displayPreviousPokemonStats = (formattedStatsKeysArr) => {
   }
 }
 
-
+// function that takes the fetched data, and display the data on the web page. It uses the functions above as well.
 const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) => {
   previousPokemonName = currentPokemonName;
   currentPokemonName = name.toUpperCase();
@@ -125,6 +133,7 @@ const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) 
   typesChildren.forEach(child => child.style.backgroundColor = getRandomColor())
 }
 
+// search function that is called when the search button is clicked
 const searchForPokemon = async () => {
   const inputValue = searchInput.value;
   console.log(inputValue);
@@ -135,6 +144,7 @@ const searchForPokemon = async () => {
   }
 }
 
+// format the input, to only match numbers, spaces and alphabet characters
 const formatInput = (input) => {
   const regex = /[\da-z\s]/gi;
   const match = input.match(regex);
@@ -142,18 +152,14 @@ const formatInput = (input) => {
     alert("Pokémon not found");
     return;
   }
+  // replace spaces with "-", as the API expects words to be separated by spaces.
   const formattedString = match.join("").toLowerCase().replace(/\s/g, "-");
   console.log(`formatted string: ${formattedString}`)
   return formattedString;
 }
 
-const displayComparisonStats = () => {
-
-}
-
-
-
+// add event listenet to the form, of type submit. 
 searchForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+  e.preventDefault(); // prevent page refresh.
   searchForPokemon();
 })
