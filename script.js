@@ -117,6 +117,12 @@ const updatePokemonCard = ({ types, weight, height, id, name, stats, sprites }) 
   pokemonTypesElem.innerHTML = types.map(({ type }) => {
     return `<p class="type ${type.name}">${type.name.toUpperCase()}</p>`
   }).join("");
+  const randomColors = ["red", "green", "orange", "purple", "blue", "brown"]
+  const getRandomIndex = () => Math.floor(Math.random() * randomColors.length);
+  const getRandomColor = () => randomColors[getRandomIndex()];
+  const typesChildren = Array.from(pokemonTypesElem.children);
+  console.log(`Types Children length: ${typesChildren.length}`)
+  typesChildren.forEach(child => child.style.backgroundColor = getRandomColor())
 }
 
 const searchForPokemon = async () => {

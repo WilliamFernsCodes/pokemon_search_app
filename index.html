@@ -6,61 +6,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pokemon Search App</title>
   <link href="./styles.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
-  <form id="search-form" role="search">
-    <input name="search-input" required id="search-input" />
-    <button id="search-button">Search</button>
-  </form>
-  <div class="pokemon-card">
-    <div class="pokemon">
-      <div class="name-and-id">
-        <p id="pokemon-name"></p>
-        <p id="pokemon-id"></p>
-      </div>
-      <div class="size">
-        <p id="weight"></p>
-        <p id="height"></p>
-      </div>
+  <main>
+    <div class="top-section">
+      <h1>Pokemon Search App</h1>
+      <p>A simple search app, where you can search for a Pokémon, either by name or by ID.</p>
     </div>
-    <img id="sprite" />
-    <div id="types"></div>
-    <table>
-      <thead>
-        <tr>
-          <th>Base</th>
-          <th>Stats</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>HP</td>
-          <td id="hp"></td>
-        </tr>
-        <tr>
-          <td>Attack</td>
-          <td id="attack"></td>
-        </tr>
-        <tr>
-          <td>Defense</td>
-          <td id="defense"></td>
-        </tr>
-        <tr>
-          <td>Sp. Attack:</td>
-          <td id="special-attack"></td>
-        </tr>
-        <tr>
-          <td>Sp. Defense:</td>
-          <td id="special-defense"></td>
-        </tr>
-        <tr>
-          <td>Speed</td>
-          <td id="speed"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <form id="search-form" role="search">
+      <input placeholder="Pikachu" name="search-input" required id="search-input" />
+      <button id="search-button">Search</button>
+    </form>
+    <div class="pokemon-card">
+      <div class="pokemon">
+        <div class="name-and-id">
+          <p id="pokemon-name"></p>
+          <p id="pokemon-id"></p>
+        </div>
+        <div class="size">
+          <p id="weight"></p>
+          <p id="height"></p>
+        </div>
+      </div>
+      <img id="sprite" />
+      <div id="types"></div>
+      <table>
+        <thead>
+          <tr class="table-row">
+            <th>Base</th>
+            <th>Stats</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>HP</td>
+            <td id="hp"></td>
+          </tr>
+          <tr>
+            <td>Attack</td>
+            <td id="attack"></td>
+          </tr>
+          <tr>
+            <td>Defense</td>
+            <td id="defense"></td>
+          </tr>
+          <tr>
+            <td>Sp. Attack:</td>
+            <td id="special-attack"></td>
+          </tr>
+          <tr>
+            <td>Sp. Defense:</td>
+            <td id="special-defense"></td>
+          </tr>
+          <tr>
+            <td>Speed</td>
+            <td id="speed"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
   <script src="./script.js"></script>
 </body>
 
